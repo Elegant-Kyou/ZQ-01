@@ -1,0 +1,50 @@
+/* ====== 亮色主题 ====== */
+:root,
+[data-theme="light"] {
+  --color-bg: #faf7f2;
+  --color-bg-card: #ffffff;
+  --color-bg-section: #f5f0e8;
+  --color-primary: #FF6B35;
+  --color-primary-hover: #e55a28;
+  --color-primary-light: rgba(255, 107, 53, 0.1);
+  --color-secondary: #FFC857;
+  --color-text: #2d2d2d;
+  --color-text-secondary: #666666;
+  --color-text-light: #999999;
+  --color-border: #e8e0d4;
+  --color-tag-bg: #f5f0e8;
+  --color-tag-active-bg: #FF6B35;
+  --color-tag-active-text: #ffffff;
+  --color-tag-text: #555555;
+  --color-shadow: rgba(0, 0, 0, 0.08);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-success: #4CAF50;
+  --color-danger: #f44336;
+  --border-radius: 12px;
+  --border-radius-sm: 8px;
+  --border-radius-lg: 20px;
+  --transition-speed: 0.3s;
+}
+
+/* ====== 暗色主题 ====== */
+[data-theme="dark"] {
+  --color-bg: #1a1a2e;
+  --color-bg-card: #16213e;
+  --color-bg-section: #1f2b47;
+  --color-primary: #FF6B35;
+  --color-primary-hover: #ff8555;
+  --color-primary-light: rgba(255, 107, 53, 0.15);
+  --color-secondary: #FFC857;
+  --color-text: #e8e8e8;
+  --color-text-secondary: #a0a0a0;
+  --color-text-light: #707070;
+  --color-border: #2a3a5c;
+  --color-tag-bg: #1f2b47;
+  --color-tag-active-bg: #FF6B35;
+  --color-tag-active-text: #ffffff;
+  --color-tag-text: #b0b0b0;
+  --color-shadow: rgba(0, 0, 0, 0.3);
+  --color-overlay: rgba(0, 0, 0, 0.6);
+  --color-success: #66BB6A;
+  --color-danger: #ef5350;
+}
