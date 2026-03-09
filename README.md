@@ -95,5 +95,74 @@ src/
 ## 运维工具
 
 - `check-domain.cjs` - 域名 DNS 解析验证脚本
-- `health-check.cjs` - 服务健康检查脚本（检测所有部署节点）
+- `health-check.cjs` - 服务健康检查脚本（检测所有部署节点，支持 `--json` 输出）
 - `deploy/` - 部署配置文件（Nginx、Docker、IIS 等）
+
+```bash
+# 检查所有节点健康状态
+node health-check.cjs
+
+# JSON 格式输出（可对接监控系统）
+node health-check.cjs --json
+
+# 验证域名 DNS 解析
+node check-domain.cjs
+```
+
+## 待完成事项
+
+### 1. 域名 DNS 配置（等待域名审核通过）
+
+域名 `zhangqiang.work` 已在阿里云提交注册，注册局审核中（约6小时）。审核通过后：
+
+1. 登录阿里云控制台 -> 域名 -> 域名解析
+2. 添加两条 A 记录：
+
+| 记录类型 | 主机记录 | 记录值 |
+|---------|---------|--------|
+| A | @ | 76.76.21.21 |
+| A | www | 76.76.21.21 |
+
+3. 等待 DNS 生效（通常几分钟），运行 `node check-domain.cjs` 验证
+
+### 2. 恢复阿里云服务器 IIS 服务
+
+服务器 `121.43.192.101` 的 IIS（W3SVC）服务当前未运行，80 端口无响应。
+SSH 密码认证已被禁用，无法远程执行命令。
+
+**方案 A：通过 RDP 远程桌面修复（推荐）**
+
+1. 远程桌面连接 `121.43.192.101`（用户 `Administrator`，密码见私密记录）
+2. 打开 PowerShell（管理员），执行：
+   ```powershell
+   iisreset /start
+   ```
+3. 验证：浏览器访问 http://121.43.192.101
+
+**方案 B：通过阿里云云助手远程执行**
+
+1. 获取 AccessKey：阿里云控制台 -> 右上角头像 -> AccessKey 管理
+2. 配置阿里云 CLI（已安装于 `C:\aliyun-cli\`）：
+   ```bash
+   export PATH="/c/aliyun-cli:$PATH"
+   aliyun configure set --profile default --access-key-id <ID> --access-key-secret <SECRET> --region cn-hangzhou
+   ```
+3. 通过云助手执行命令：
+   ```bash
+   aliyun ecs RunCommand --Type RunPowerShellScript --CommandContent "iisreset /start" --InstanceId.1 <实例ID> --RegionId cn-hangzhou
+   ```
+
+**方案 C：恢复 SSH 密码认证**
+
+通过 RDP 登录后，在 PowerShell 中执行：
+```powershell
+(Get-Content C:\ProgramData\ssh\sshd_config) -replace 'PasswordAuthentication no','PasswordAuthentication yes' | Set-Content C:\ProgramData\ssh\sshd_config
+Restart-Service sshd
+```
+
+### 3. 后续优化方向
+
+- 接入更多菜品数据
+- 用户自定义菜品功能
+- 分享推荐结果
+- PWA 离线支持
